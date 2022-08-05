@@ -2,7 +2,7 @@
 
 require 'r00lz/version'
 
-module R00lz
+module R00lzService
   class Object
     def self.const_missing(const)
       require R00lz.to_underscore(const.to_s)
