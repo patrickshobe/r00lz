@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'http://home.com'
   spec.metadata['changelog_uri'] = 'http://home.com'
+  spec.add_runtime_dependency 'json', '~>2.1.0'
   spec.add_runtime_dependency 'rack', '~>2.0.7'
 
   # Specify which files should be added to the gem when it is released.

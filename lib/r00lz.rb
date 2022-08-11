@@ -2,13 +2,32 @@
 
 require 'r00lz/version'
 
-module R00lzService
+  class FileModel
+    def initialize(fn)
+      @fn = fn
+      cont = File.read fn
+      @hash = JSON.load cont
+    end
+
+    def [](field)
+      @hash[field.to_s]
+    end
+
+    def self.find(id)
+      new "data/#{id}.json"
+    end
+  end
+
+module R00lz
+  require 'erb'
+  require 'json'
   class Object
     def self.const_missing(const)
       require R00lz.to_underscore(const.to_s)
       Object.const_get(const)
     end
   end
+
 
   class Error < StandardError; end
 
@@ -36,11 +55,26 @@ module R00lzService
     end
   end
 
+
   class Controller
     attr_reader :env
 
     def initialize(env)
       @env = env
+    end
+
+    def render(name, bin = binding())
+      template = "app/views/#{name}.html.erb"
+      erb = ERB.new(File.read(template))
+      erb.result(bin)
+    end
+
+    def request
+      @request ||= Rack::Request.new @env
+    end
+
+    def params
+      request.params
     end
   end
 end
